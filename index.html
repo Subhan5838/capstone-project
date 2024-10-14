@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberbullying Chatbot Support</title>
+    
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="bg-dark text-white py-3 text-center">
+        <h1>Cyberbullying Chatbot Support</h1>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
+                    <li class="nav-item"><a href="#laws" class="nav-link">Laws</a></li>
+                    <li><a href="laws.html">Laws</a></li>
+                    <li class="nav-item"><a href="#faq" class="nav-link">FAQs</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section id="hero" class="bg-light py-5 text-center">
+        <div class="container">
+            <img src="data:image/jpeg;base64,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" class="img-fluid mb-4" alt="Cyberbullying Illustration" />
+            <h2 class="display-4">Your 24/7 Cyberbullying Support Chatbot</h2>
+            <p class="lead">Here to help you navigate and report cyberbullying incidents.</p>
+            <button id="chat-button" class="btn btn-primary btn-lg mt-3">Chat Now</button>
+        </div>
+    </section>
+
+    <section id="about" class="container py-5">
+        <h3 class="mb-3">About Us</h3>
+        <p>We provide real-time support for all your cyberbullying concerns through our intelligent chatbot.</p>
+    <section id="services" class="container py-5 bg-light">
+        <h3 class="mb-3">Our Services</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-unstyled">
+                    <li class="mb-4">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <strong>Reporting Cyberbullying</strong>
+                        <p>Our platform helps you report cyberbullying incidents swiftly and securely. We guide you through the reporting process to ensure that your concerns are taken seriously.</p>
+                        <a href="reporting-guide.html" class="btn btn-primary">Learn More</a>
+                    </li>
+                    <li class="mb-4">
+                        <i class="fas fa-user-shield me-2"></i>
+                        <strong>Support for Victims</strong>
+                        <p>We offer emotional support and guidance for individuals affected by cyberbullying. Our chatbot can provide resources and connect you with professional help if needed.</p>
+                        <a href="support-resources.html" class="btn btn-primary">Get Support</a>
+                    </li>
+                    <li class="mb-4">
+                        <i class="fas fa-comments me-2"></i>
+                        <strong>Advice on Handling Bullying</strong>
+                        <p>Receive practical advice on how to handle bullying situations effectively. Our chatbot can provide tips and strategies to empower you and ensure your safety.</p>
+                        <a href="advice.html" class="btn btn-primary">View Advice</a>
+                    </li>
+                    <li class="mb-4">
+                        <i class="fas fa-lock me-2"></i>
+                        <strong>Resources for Safety</strong>
+                        <p>Access a variety of resources, including articles, hotlines, and support groups dedicated to cyberbullying prevention and safety measures.</p>
+                        <a href="resources.html" class="btn btn-primary">Explore Resources</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh5ETFBdDNbQcZzqk7IaBYJlRodpJO4KHP4w&s" class="img-fluid" alt="Services Image" />
+            </div>
+        </div>
+    </section>
+
+
+    <section id="laws" class="container py-5">
+        <h3>Indian Laws</h3>
+        <p>Below is a comprehensive list of important Indian laws:</p>
+        <ul>
+            <li><strong>Information Technology Act, 2000</strong>
+                <ul>
+                    <li><strong>Section 66:</strong> Computer-related offenses.</li>
+                    <li><strong>Section 66A:</strong> Sending offensive messages through communication service (invalidated in 2015).</li>
+                    <li><strong>Section 66B:</strong> Punishment for dishonestly receiving stolen computer resources.</li>
+                    <li><strong>Section 66C:</strong> Identity theft.</li>
+                    <li><strong>Section 66E:</strong> Violation of privacy.</li>
+                    <li><strong>Section 67:</strong> Publishing or transmitting obscene material.</li>
+                    <li><strong>Section 67A:</strong> Publishing or transmitting sexually explicit acts.</li>
+                    <li><strong>Section 67B:</strong> Publishing or transmitting children’s sexual material.</li>
+                    <li><strong>Section 70:</strong> Power to issue directions for interception or monitoring.</li>
+                    <li><strong>Section 71:</strong> Misrepresentation.</li>
+                    <li><strong>Section 72:</strong> Breach of confidentiality and privacy.</li>
+                    <li><strong>Section 72A:</strong> Disclosure of information in breach of lawful contract.</li>
+                </ul>
+            </li>
+            <li><strong>Indian Penal Code, 1860</strong>
+                <ul>
+                    <li><strong>Section 499:</strong> Defamation.</li>
+                    <li><strong>Section 500:</strong> Punishment for defamation.</li>
+                    <li><strong>Section 506:</strong> Punishment for criminal intimidation.</li>
+                    <li><strong>Section 507:</strong> Criminal intimidation by an anonymous communication.</li>
+                    <li><strong>Section 354D:</strong> Stalking.</li>
+                    <li><strong>Section 509:</strong> Word, gesture or act intended to insult the modesty of a woman.</li>
+                    <li><strong>Section 292:</strong> Sale of obscene books, etc.</li>
+                    <li><strong>Section 294:</strong> Obscene acts and songs.</li>
+                </ul>
+            </li>
+            <li><strong>Protection of Children from Sexual Offences Act, 2012 (POCSO)</strong>
+                <ul>
+                    <li>Addresses online sexual exploitation of children.</li>
+                </ul>
+            </li>
+            <li><strong>The Juvenile Justice (Care and Protection of Children) Act, 2015</strong>
+                <ul>
+                    <li>Provides protection against abuse for minors.</li>
+                </ul>
+            </li>
+            <li><strong>The Right to Information Act, 2005</strong>
+                <ul>
+                    <li>Allows individuals to request information from public authorities.</li>
+                </ul>
+            </li>
+            <li><strong>The Digital Information Security in Healthcare Act (DISHA) (Proposed)</strong>
+                <ul>
+                    <li>Aims to protect digital health data, relevant to privacy concerns in online platforms.</li>
+                </ul>
+            </li>
+            <li><strong>The Cybersecurity Strategy of India (2020)</strong>
+                <ul>
+                    <li>Outlines measures for protecting citizens from cyber threats.</li>
+                </ul>
+            </li>
+            <li><strong>The National Cyber Crime Policy</strong>
+                <ul>
+                    <li>Aims to create awareness and educate citizens about cybercrime.</li>
+                </ul>
+            </li>
+            <li><strong>The Child and Adolescent (Psychiatric) Bill (Proposed)</strong>
+                <ul>
+                    <li>Focuses on the mental health of children and adolescents affected by online bullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Prevention of Electronic Crimes Act, 2016 (Pakistan)</strong>
+                <ul>
+                    <li>Relevant for cross-border legal frameworks addressing cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Communications Decency Act (USA)</strong>
+                <ul>
+                    <li>Provides protections against liability for internet service providers.</li>
+                </ul>
+            </li>
+            <li><strong>The Children’s Online Privacy Protection Act (COPPA) (USA)</strong>
+                <ul>
+                    <li>Protects the privacy of children under 13 online.</li>
+                </ul>
+            </li>
+            <li><strong>The Anti-Bullying Bill (UK)</strong>
+                <ul>
+                    <li>Aims to address bullying in schools, including cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Cyberbullying Prevention Act (USA)</strong>
+                <ul>
+                    <li>Various states have enacted laws against cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Electronic Communications Privacy Act (USA)</strong>
+                <ul>
+                    <li>Addresse interception of communications and privacy issues.</li>
+                </ul>
+            </li>
+            <li><strong>The General Data Protection Regulation (GDPR) (EU)</strong>
+                <ul>
+                    <li>Protects personal data and privacy in the EU.</li>
+                </ul>
+            </li>
+            <li><strong>The Malicious Communications Act (UK)</strong>
+                <ul>
+                    <li>Addresses sending harmful communications via electronic means.</li>
+                </ul>
+            </li>
+            <li><strong>The Intimate Images Bill (UK)</strong>
+                <ul>
+                    <li>Addresses non-consensual sharing of intimate images, often a form of cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Cyber Crime Act (Singapore)</strong>
+                <ul>
+                    <li>Addresses various cyber offenses, including harassment.</li>
+                </ul>
+            </li>
+            <li><strong>The Social Media Platforms (Regulation) Bill (Proposed)</strong>
+                <ul>
+                    <li>Proposes regulations for social media platforms to address harassment and bullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Anti-Harassment Act (Philippines)</strong>
+                <ul>
+                    <li>Protects individuals from various forms of harassment, including online.</li>
+                </ul>
+            </li>
+            <li><strong>The Online Safety Bill (UK)</strong>
+                <ul>
+                    <li>Aims to regulate harmful content online, including cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Cyberbullying Prevention Act (New Jersey, USA)</strong>
+                <ul>
+                    <li>Specifically addresses cyberbullying in schools.</li>
+                </ul>
+            </li>
+            <li><strong>The School Violence Prevention Act (USA)</strong>
+                <ul>
+                    <li>Aims to address all forms of bullying, including cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Electronic Fraud Law (Various Countries)</strong>
+                <ul>
+                    <li>Protects against various online frauds that can stem from cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Hate Speech Laws (Various Countries)</strong>
+                <ul>
+                    <li>Many countries have laws against hate speech which can be relevant in cases of cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Digital Economy Act (UK)</strong>
+                <ul>
+                    <li>Addresses online harms, including cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Online Harms White Paper (UK)</strong>
+                <ul>
+                    <li>A proposal for regulatory frameworks to tackle online abuse.</li>
+                </ul>
+            </li>
+            <li><strong>The Defamation Act (UK)</strong>
+                <ul>
+                    <li>Relevant for cases of defamation occurring through digital platforms.</li>
+                </ul>
+            </li>
+            <li><strong>The Online Harassment Law (Australia)</strong>
+                <ul>
+                    <li>Addresses online harassment and abuse.</li>
+                </ul>
+            </li>
+            <li><strong>The Privacy Act (Canada)</strong>
+                <ul>
+                    <li>Protects personal information and can be applied in cyberbullying cases.</li>
+                </ul>
+            </li>
+            <li><strong>The Electronic Communications Act (South Africa)</strong>
+                <ul>
+                    <li>Regulates electronic communications, including cyber offenses.</li>
+                </ul>
+            </li>
+            <li><strong>The Criminal Code of Canada</strong>
+                <ul>
+                    <li>Contains provisions related to harassment and defamation.</li>
+                </ul>
+            </li>
+            <li><strong>The Anti-Cyberbullying Act (New York, USA)</strong>
+                <ul>
+                    <li>Specific provisions to combat cyberbullying in schools.</li>
+                </ul>
+            </li>
+            <li><strong>The Communications and Multimedia Act (Malaysia)</strong>
+                <ul>
+                    <li>Addresses online harassment and abuse.</li>
+                </ul>
+            </li>
+            <li><strong>The Cybercrime Law (Turkey)</strong>
+                <ul>
+                    <li>Focuses on cyberbullying and related offenses.</li>
+                </ul>
+            </li>
+            <li><strong>The Digital Child Exploitation Act (USA)</strong>
+                <ul>
+                    <li>Focuses on protecting children from online exploitation.</li>
+                </ul>
+            </li>
+            <li><strong>The Federal Cybersecurity Law (Russia)</strong>
+                <ul>
+                    <li>Addresses cybersecurity and related offenses, including bullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Anti-Social Behaviour, Crime and Policing Act (UK)</strong>
+                <ul>
+                    <li>Addresses various forms of online and offline harassment.</li>
+                </ul>
+            </li>
+            <li><strong>The Child Protection in Sports Action Plan (UK)</strong>
+                <ul>
+                    <li>Addresses bullying in sports contexts, relevant to online interactions.</li>
+                </ul>
+            </li>
+            <li><strong>The Employment (Equal Opportunities) Act (UK)</strong>
+                <ul>
+                    <li>Addresses bullying and harassment in the workplace, including online bullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Telecommunications (Interception and Access) Act (Australia)</strong>
+                <ul>
+                    <li>Protects against unlawful access to communications.</li>
+                </ul>
+            </li>
+            <li><strong>The Non-consensual Sharing of Intimate Images (Various States, USA)</strong>
+                <ul>
+                    <li>Laws against sharing private images without consent.</li>
+                </ul>
+            </li>
+            <li><strong>The Digital Privacy Act (Canada)</strong>
+                <ul>
+                    <li>Addresses data protection and privacy, relevant to cyberbullying.</li>
+                </ul>
+            </li>
+            <li><strong>The Cyberbullying Law (California, USA)</strong>
+                <ul>
+                    <li>Specific provisions addressing cyberbullying in schools.</li>
+                </ul>
+            </li>
+            <li><strong>The Personal Data Protection Act (Singapore)</strong>
+                <ul>
+                    <li>Protects personal data, relevant in cyberbullying cases.</li>
+                </ul>
+            </li>
+            <li><strong>The Electronic Transactions Act (Various Countries)</strong>
+                <ul>
+                    <li>Addresses online transactions and related offenses.</li>
+                </ul>
+            </li>
+            <li><strong>The Hate Crime Legislation (Various Countries)</strong>
+                <ul>
+                    <li>Protects against crimes motivated by hate, which can include online bullying.</li>
+                </ul>
+            </li>
+            <li><strong>The National Cybersecurity Protection Act (USA)</strong>
+                <ul>
+                    <li>Aims to enhance cybersecurity protections, relevant to online abuse.</li>
+                </ul>
+            </li>
+            <li><strong>The Federal Anti-Bullying Legislation (Various Countries)</strong>
+                <ul>
+            </ul>
+           
+            <li><strong>United States - Federal and State Laws:</strong></li>
+            <li>1. Children’s Internet Protection Act (CIPA)</li>
+            <li>2. Communication Decency Act (1996)</li>
+            <li>3. Megan Meier Cyberbullying Prevention Act</li>
+            <li>4. New York Dignity for All Students Act (DASA)</li>
+            <li>5. California AB 86 (Cyberbullying Law)</li>
+            <li>6. Florida’s Jeffrey Johnston Stand Up for All Students Act</li>
+            <li>7. North Carolina’s Cyberbullying Statute (2009)</li>
+            <li>8. Texas Bullying and Cyberbullying Law (David’s Law)</li>
+            <li>9. Illinois Cyberstalking Law (720 ILCS 5/12-7.5)</li>
+            <li>10. Michigan Anti-Bullying Act (Matt's Safe School Law)</li>
+            <li>11. New Jersey Anti-Bullying Bill of Rights (2011)</li>
+            <li>12. Kentucky’s House Bill 91</li>
+            <li>13. Ohio Revised Code - Telecommunications Harassment</li>
+            <li>14. Washington Cyberstalking Law (RCW 9.61.260)</li>
+            <li>15. Massachusetts Bullying Prevention Law (2010)</li>
+            <li>16. Colorado Anti-Cyberbullying Law (HB 15-1072)</li>
+            <li>17. Missouri Cyberbullying Law</li>
+            <li>18. Arizona Cyberbullying Statutes (ARS § 13-2921)</li>
+            <li>19. Hawaii's Cyberbullying Laws (Act 214)</li>
+            <li>20. Louisiana Anti-Bullying Law</li>
+
+            <li><strong>Canada:</strong></li>
+            <li>21. Canada’s Protecting Canadians from Online Crime Act (Bill C-13)</li>
+            <li>22. Nova Scotia’s Cyber-safety Act (2013)</li>
+            <li>23. Quebec Education Act - Bullying and Violence Prevention</li>
+            <li>24. Ontario’s Accepting Schools Act</li>
+            <li>25. Manitoba Public Schools Amendment Act</li>
+
+            <li><strong>United Kingdom:</strong></li>
+            <li>26. Malicious Communications Act (1988)</li>
+            <li>27. Communications Act (2003)</li>
+            <li>28. Protection from Harassment Act (1997)</li>
+            <li>29. Defamation Act (2013)</li>
+            <li>30. The Education Act (2011)</li>
+
+            <li><strong>Australia:</strong></li>
+            <li>31. Australia’s Criminal Code Act (1995)</li>
+            <li>32. Enhancing Online Safety Act (2015)</li>
+            <li>33. New South Wales Crimes Act</li>
+            <li>34. Victoria's Anti-Bullying Law (Brodie's Law)</li>
+            <li>35. Queensland Criminal Code</li>
+
+            <li><strong>European Union:</strong></li>
+            <li>36. General Data Protection Regulation (GDPR)</li>
+            <li>37. European Convention on Human Rights (ECHR)</li>
+
+            <li><strong>Individual EU Countries:</strong></li>
+            <li>38. Germany’s Network Enforcement Act (NetzDG)</li>
+            <li>39. France's Law Against Harassment (2014)</li>
+            <li>40. Spain’s Criminal Code</li>
+            <li>41. Italy's Cyberbullying Law (Law 71/2017)</li>
+            <li>42. Netherlands Criminal Code</li>
+            <li>43. Sweden’s Defamation and Insult Law</li>
+
+            <li><strong>Asia:</strong></li>
+            <li>44. Japan’s Penal Code</li>
+            <li>45. South Korea’s Information and Communications Network Act</li>
+            <li>46. India’s Information Technology Act (2000)</li>
+            <li>47. Singapore’s Protection from Harassment Act (2014)</li>
+            <li>48. Philippines Cybercrime Prevention Act (2012)</li>
+
+            <li><strong>Latin America:</strong></li>
+            <li>49. Brazil’s Law 13.185 (2015)</li>
+            <li>50. Argentina's Law Against Cybercrime</li>
+        </ul>
+    </section>
+        <section id="faq" class="container py-5 bg-light">
+            <h3 class="mb-4 text-center">Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is cyberbullying?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Cyberbullying is the use of digital technology to harass, threaten, or harm others. It can occur through social media, text messages, and other online platforms.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            How can I report cyberbullying?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            You can report cyberbullying incidents through our platform, which provides a secure and straightforward reporting process. For specific platforms, check their reporting guidelines.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            What should I do if I'm being bullied online?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            If you're being bullied online, it’s important to save evidence, block the bully, and reach out for support from trusted friends or professionals. You can also report the bullying.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Are there resources available for victims of cyberbullying?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, we provide a variety of resources, including hotlines, articles, and links to support groups, to help victims of cyberbullying.
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            How can I report cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            You can report cyberbullying to the platform where it occurs, local authorities, or school officials if applicable.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            What are the signs of cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Signs include sudden changes in behavior, withdrawal from social interactions, and reluctance to use digital devices.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingFour">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                            Are there specific laws against cyberbullying in India?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, various laws such as the Information Technology Act, 2000 and Indian Penal Code address cyberbullying.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingFive">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                            Can cyberbullying be reported anonymously?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Many platforms allow for anonymous reporting, and you can also choose to remain anonymous when contacting authorities.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingSix">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                            What should I do if I am a victim of cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Document the incidents, report them to the relevant platform or authorities, and seek support from friends or professionals.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingSeven">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                            Can parents be held responsible for their child's cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            In some cases, parents may face legal repercussions if they fail to supervise their child's online activities.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingEight">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                            Is there a legal age for reporting cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            There is no specific legal age; however, minors should involve a parent or guardian when reporting.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingNine">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                                            How can schools help prevent cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Schools can implement policies, provide education on digital citizenship, and create safe environments for reporting incidents.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTen">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                                            What are the psychological effects of cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Victims may experience anxiety, depression, low self-esteem, and social withdrawal as a result of cyberbullying.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingEleven">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                                            Are there laws against online hate speech?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, laws against hate speech can apply to online contexts and are relevant in cases of cyberbullying.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwelve">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                                            Can social media platforms be sued for cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            In some jurisdictions, platforms may be held liable if they fail to address reported cyberbullying adequately.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingThirteen">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+                                            How can I support a friend who is being bullied online?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThirteen" class="accordion-collapse collapse" aria-labelledby="headingThirteen" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Be there to listen, encourage them to report the bullying, and offer to help them gather evidence.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingFourteen">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
+                                            What is the role of law enforcement in cyberbullying cases?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFourteen" class="accordion-collapse collapse" aria-labelledby="headingFourteen" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Law enforcement can investigate reports of cyberbullying, especially if it involves threats or harassment.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingFifteen">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
+                                            What should I do if I witness cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFifteen" class="accordion-collapse collapse" aria-labelledby="headingFifteen" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Report the incident to the platform and support the victim by reaching out to them privately.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingSixteen">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSixteen" aria-expanded="false" aria-controls="collapseSixteen">
+                                            Are there support groups for victims of cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseSixteen" class="accordion-collapse collapse" aria-labelledby="headingSixteen" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, many organizations offer support groups and resources for victims of cyberbullying.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingSeventeen">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeventeen" aria-expanded="false" aria-controls="collapseSeventeen">
+                                            Can online bullying happen in gaming communities?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseSeventeen" class="accordion-collapse collapse" aria-labelledby="headingSeventeen" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, gaming communities can be hotbeds for cyberbullying due to anonymity and competitive environments.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingEighteen">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEighteen" aria-expanded="false" aria-controls="collapseEighteen">
+                                            How does cyberbullying affect mental health?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseEighteen" class="accordion-collapse collapse" aria-labelledby="headingEighteen" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Cyberbullying can lead to anxiety, depression, and even suicidal thoughts in severe cases.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingNineteen">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNineteen" aria-expanded="false" aria-controls="collapseNineteen">
+                                            Can I block someone who is bullying me online?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseNineteen" class="accordion-collapse collapse" aria-labelledby="headingNineteen" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, blocking the bully on social media or gaming platforms can be an effective way to protect yourself.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwenty">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwenty" aria-expanded="false" aria-controls="collapseTwenty">
+                                            What resources are available for cyberbullying victims in India?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwenty" class="accordion-collapse collapse" aria-labelledby="headingTwenty" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Various NGOs and helplines offer support, along with government initiatives to address cyberbullying.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwentyOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentyOne" aria-expanded="false" aria-controls="collapseTwentyOne">
+                                            Can I take legal action against a bully?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwentyOne" class="accordion-collapse collapse" aria-labelledby="headingTwentyOne" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, you can pursue legal action against someone if they are violating anti-bullying laws.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwentyTwo">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentyTwo" aria-expanded="false" aria-controls="collapseTwentyTwo">
+                                            What are the responsibilities of social media platforms in preventing cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwentyTwo" class="accordion-collapse collapse" aria-labelledby="headingTwentyTwo" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Social media platforms are required to have reporting systems, moderation policies, and user guidelines to prevent bullying.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwentyThree">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentyThree" aria-expanded="false" aria-controls="collapseTwentyThree">
+                                            How can technology be used to combat cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwentyThree" class="accordion-collapse collapse" aria-labelledby="headingTwentyThree" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Technology can provide monitoring tools, reporting mechanisms, and educational resources to combat cyberbullying.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwentyFour">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentyFour" aria-expanded="false" aria-controls="collapseTwentyFour">
+                                            What is the role of parents in preventing cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwentyFour" class="accordion-collapse collapse" aria-labelledby="headingTwentyFour" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Parents should educate their children about online safety, monitor their online activities, and encourage open communication.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwentyFive">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentyFive" aria-expanded="false" aria-controls="collapseTwentyFive">
+                                            What can bystanders do to help victims of cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwentyFive" class="accordion-collapse collapse" aria-labelledby="headingTwentyFive" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Bystanders can support victims by speaking out against bullying, reporting incidents, and offering emotional support.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwentySix">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentySix" aria-expanded="false" aria-controls="collapseTwentySix">
+                                            What steps can schools take to address cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwentySix" class="accordion-collapse collapse" aria-labelledby="headingTwentySix" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Schools can implement anti-bullying policies, provide training for staff, and create awareness campaigns for students.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwentySeven">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentySeven" aria-expanded="false" aria-controls="collapseTwentySeven">
+                                            What is the difference between cyberbullying and traditional bullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwentySeven" class="accordion-collapse collapse" aria-labelledby="headingTwentySeven" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Cyberbullying occurs online, while traditional bullying typically happens in person. Cyberbullying can happen 24/7.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwentyEight">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentyEight" aria-expanded="false" aria-controls="collapseTwentyEight">
+                                            How can I protect my privacy online to prevent cyberbullying?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwentyEight" class="accordion-collapse collapse" aria-labelledby="headingTwentyEight" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Use privacy settings on social media, avoid sharing personal information, and be cautious about friend requests.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwentyNine">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwentyNine" aria-expanded="false" aria-controls="collapseTwentyNine">
+                                            What can I do if I receive threatening messages online?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwentyNine" class="accordion-collapse collapse" aria-labelledby="headingTwentyNine" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Save the messages, report them to the platform, and consider contacting law enforcement if you feel unsafe.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingThirty">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThirty" aria-expanded="false" aria-controls="collapseThirty">
+                                            How can I raise awareness about cyberbullying in my community?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThirty" class="accordion-collapse collapse" aria-labelledby="headingThirty" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Organize workshops, share resources online, and collaborate with local schools to create awareness campaigns.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    <footer class="bg-dark text-white py-3 text-center">
+        <p>&copy; 2024 Cyberbullying Chatbot Support</p>
+    </footer>
+
+    <div id="chat-modal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <span class="close" aria-label="Close chat">&times;</span>
+            <h2>Chat with our Support Bot!</h2>
+            <div id="chat-box" role="log" aria-live="polite"></div>
+            <input type="text" id="user-input" placeholder="Type your message..." aria-label="Type your message" />
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
