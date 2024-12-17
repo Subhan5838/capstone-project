@@ -1,0 +1,759 @@
+<?php
+// Handle report form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['report'])) {
+    // Process report form submission
+    $incident_type = $_POST['incident_type'];
+    $description = $_POST['description'];
+    $attachments = $_FILES['attachments'];
+
+    // Example of handling file upload
+    $uploaded_files = [];
+    if ($attachments['error'][0] === 0) {
+        foreach ($attachments['tmp_name'] as $key => $tmp_name) {
+            $file_name = $attachments['name'][$key];
+            $file_path = 'uploads/' . $file_name;
+            if (move_uploaded_file($tmp_name, $file_path)) {
+                $uploaded_files[] = $file_path;
+            }
+        }
+    }
+
+    // Store the report data or send an email, etc.
+    // For now, just echo the data
+    echo "Report submitted: Incident Type - $incident_type, Description - $description";
+    // Store or process the data as required (save to DB, email, etc.)
+}
+
+// Handle appointment form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['appointment'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $preferred_date = $_POST['preferred_date'];
+    $message = $_POST['message'];
+
+    // Store or send appointment data (store in DB, send email, etc.)
+    echo "Appointment booked: Name - $name, Email - $email, Date - $preferred_date, Message - $message";
+    // Add appropriate backend code to store data or send confirmation email
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberBuddy - Your Anti-Cyberbullying Companion</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #00BCD4 0%, #2196F3 100%);
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .chatbot-container {
+            transition: all 0.3s ease;
+        }
+        .card {
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-blue shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-2" style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.7); border-radius: 10px; padding: 5px; background: #f4f4f9;">
+            <div class="flex justify-between items-center h-15">
+                <div class="flex items-center">
+                   <img src="logo" alt="CyberBuddy Logo" class="transform hover:rotate-3xl transition-transform duration-300" style="width: 80px; height: 80px;" />
+
+
+                   </div>
+                <div class="hidden md:flex space-x-8">
+    <a href="#home" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-200 hover:shadow-lg">Home</a>
+    <a href="#report" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-200 hover:shadow-lg">Report</a>
+    <a href="#laws" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-200 hover:shadow-lg">Laws</a>
+    <a href="#appointment" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-200 hover:shadow-lg">Book Appointment</a>
+    <a href="#Contact" class="text-gray-600 hover:text-cyan-600 hover:bg-gray-200 hover:shadow-lg">Contact</a>
+</div>
+
+                <button class="md:hidden" onclick="toggleMenu()">
+                    <i class="bi bi-list text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden fixed w-full bg-white z-40 top-16 shadow-lg">
+        <div class="max-w-3xl mx-auto px-4" style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.7); border-radius: 16px; padding: 20px; background: #f4f4f9;">
+            <a href="#home" class="block text-gray-600">Home</a>
+            <a href="#report" class="block text-gray-600">Report</a>
+            <a href="#laws" class="block text-gray-600">Laws</a>
+            <a href="#appointment" class="block text-gray-600">Book Appointment</a>
+            <a href="#Contact" class="block text-gray-600">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient pt-24 pb-12">
+        <div class="max-w-7xl mx-auto px-4" style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.7); border-radius: 16px; padding: 20px; background: B1F0F7;">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 text-white">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6">Stand Against Cyberbullying</h1>
+                    <p class="text-lg mb-8">We're here to help you combat cyberbullying with AI-powered support and resources.</p>
+                     <button style="background: linear-gradient(145deg, #000000, #333333); color: white; font-size: 18px; font-weight: bold; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2), -4px -4px 10px rgba(255, 255, 255, 0.7); transition: transform 0.2s ease, box-shadow 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='6px 6px 15px rgba(0, 0, 0, 0.3), -6px -6px 15px rgba(255, 255, 255, 0.8)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='4px 4px 10px rgba(0, 0, 0, 0.2), -4px -4px 10px rgba(255, 255, 255, 0.7)';" onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.8)';" onmouseup="this.style.transform='translateY(-2px)'; this.style.boxShadow='6px 6px 15px rgba(0, 0, 0, 0.3), -6px -6px 15px rgba(255, 255, 255, 0.8)';">Chat with AI Assistant</button>
+
+                </div>
+               <div class="max-w-7xl mx-auto px-4">
+                    <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_xyadoh9h.json" background="transparent" speed="1" class="w-full max-w-md mx-auto floating" loop autoplay></lottie-player>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Chatbot -->
+    <div id="chatbot" class="fixed bottom-4 right-4 z-50 chatbot-container hidden">
+        <div class="bg-white rounded-lg shadow-xl w-96 max-w-full">
+            <div class="p-4 bg-cyan-600 text-black rounded-t-lg flex justify-between items-center">
+                <h3>Billy AI Assistant</h3>
+                <button onclick="closeChatbot()" class="text-black"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div id="chat-messages" class="h-96 overflow-y-auto p-4 space-y-4"></div>
+            <div class="p-4 border-t">
+                <div class="flex gap-2 mb-2">
+                    <label class="cursor-pointer">
+                        <i class="bi bi-paperclip text-gray-500"></i>
+                        <input type="file" class="hidden" onchange="handleFileUpload(event)">
+                    </label>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="user-input" class="flex-1 border rounded-lg px-4 py-2" placeholder="Type your message...">
+                    <button onclick="sendMessage()" class="bg-cyan-600 text-black px-4 py-2 rounded-lg">
+                        <i class="bi bi-send"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- Report Section -->
+<section id="report" class="py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-4" style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.7); border-radius: 16px; padding: 20px; background: #f4f4f9;">
+        <h2 class="text-3xl font-bold text-center mb-8">Report an Incident</h2>
+        <form id="report-form" action="" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <div>
+                <label class="block text-gray-700 mb-2">Incident Type</label>
+                <select name="incident_type" class="w-full border rounded-lg px-4 py-2" required>
+                    <option value="">Select Type</option>
+                    <option value="harassment">Harassment</option>
+                    <option value="threats">Threats</option>
+                    <option value="hate_speech">Hate Speech</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-2">Description</label>
+                <textarea name="description" class="w-full border rounded-lg px-4 py-2 h-32" required></textarea>
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-2">Attach Evidence</label>
+                <input type="file" name="attachments[]" class="w-full border rounded-lg px-4 py-2" multiple>
+            </div>
+            <div>
+                <button style="background: linear-gradient(145deg, #6fcf97, #56ab8c); color: white; font-size: 18px; font-weight: bold; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2), -4px -4px 10px rgba(255, 255, 255, 0.7); transition: transform 0.2s ease, box-shadow 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='6px 6px 15px rgba(0, 0, 0, 0.3), -6px -6px 15px rgba(255, 255, 255, 0.8)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='4px 4px 10px rgba(0, 0, 0, 0.2), -4px -4px 10px rgba(255, 255, 255, 0.7)';" onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.8)';" onmouseup="this.style.transform='translateY(-2px)'; this.style.boxShadow='6px 6px 15px rgba(0, 0, 0, 0.3), -6px -6px 15px rgba(255, 255, 255, 0.8)';">Submit</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+   <!-- Laws Section -->
+    <section id="laws" class="py-16 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4" style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.7); border-radius: 16px; padding: 20px; background: #f4f4f9;">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Cyberbullying Laws</h2>
+            <div class="mb-8">
+                <input type="text" id="law-search" placeholder="Search laws..." class="w-full max-w-xl mx-auto block border rounded-lg px-4 py-2">
+                <div class="law-search-container">
+    
+</div>
+<div id="laws-list"></div>
+<button id="show-more-btn" class="btn btn-primary mt-4" style="display:none; transition: all 0.3s ease; box-shadow: 0px 4px 12px rgba(0, 123, 255, 0.3);" onclick="showMoreLaws()">Show More</button>
+
+
+                 
+            </div>
+            <div id="laws-list" class="grid md:grid-cols-3 gap-6">
+                <!-- Laws will be dynamically populated here -->
+                
+            </div>
+        </div>
+    </section>
+    <!-- Appointment Section -->
+    <section id="appointment" class="py-16 bg-white">
+       <div class="max-w-3xl mx-auto px-4" style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.7); border-radius: 16px; padding: 20px; background: #f4f4f9;">
+            <h2 class="text-3xl font-bold text-center mb-8">Book an Appointment</h2>
+            <form id="appointment-form" action="" method="POST" class="space-y-6">
+                <div>
+                    <label class="block text-gray-700 mb-2">Name</label>
+                    <input type="text" name="name" class="w-full border rounded-lg px-4 py-2" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" name="email" class="w-full border rounded-lg px-4 py-2" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Preferred Date</label>
+                    <input type="date" name="preferred_date" class="w-full border rounded-lg px-4 py-2" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Message</label>
+                    <textarea name="message" class="w-full border rounded-lg px-4 py-2 h-32" required></textarea>
+                    <button style="background: linear-gradient(145deg, #6fcf97, #56ab8c); color: white; font-size: 18px; font-weight: bold; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2), -4px -4px 10px rgba(255, 255, 255, 0.7); transition: transform 0.2s ease, box-shadow 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='6px 6px 15px rgba(0, 0, 0, 0.3), -6px -6px 15px rgba(255, 255, 255, 0.8)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='4px 4px 10px rgba(0, 0, 0, 0.2), -4px -4px 10px rgba(255, 255, 255, 0.7)';" onmousedown="this.style.transform='translateY(2px)'; this.style.boxShadow='2px 2px 5px rgba(0, 0, 0, 0.3), -2px -2px 5px rgba(255, 255, 255, 0.8)';" onmouseup="this.style.transform='translateY(-2px)'; this.style.boxShadow='6px 6px 15px rgba(0, 0, 0, 0.3), -6px -6px 15px rgba(255, 255, 255, 0.8)';">Submit</button>
+
+                </div>
+                <div>
+                   
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-3xl mx-auto px-4" style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.7); border-radius: 16px; padding: 20px; background: 81BFDA;">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">CyberBuddy</h3>
+                    <p class="text-gray-400">Your trusted companion against cyberbullying.</p>
+                </div>
+                <div id="Contact">
+                    <h3 class="text-xl font-bold mb-4">Contact</h3>
+                    <div class="space-y-2">
+                        <p><i class="bi bi-envelope"></i> support@cyberbuddy.com</p>
+                        <p><i class="bi bi-phone"></i> +91 9448925315</p>
+                        <p><i class="bi bi-geo-alt"></i> Presidency University</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-cyan-400"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="hover:text-cyan-400"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="hover:text-cyan-400"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="hover:text-cyan-400"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p>&copy; 2023 CyberBuddy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+
+    <script>
+        const API_KEY = 'sk-7sbX2zySETm41p1lMLFTMWd8-w46lTqqdL-vPxWGwfT3BlbkFJRZErFG0QrhIJDY-RlqlNGnJHYfKLZiXNYhoSs9VnoA'; // Ensure this is kept secure
+        let chatbotVisible = false;
+
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function openChatbot() {
+            const chatbot = document.getElementById('chatbot');
+            chatbot.classList.remove('hidden');
+            chatbotVisible = true;
+        }
+
+        function closeChatbot() {
+            const chatbot = document.getElementById('chatbot');
+            chatbot.classList.add('hidden');
+            chatbotVisible = false;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            appendMessage('user', message);
+            input.value = '';
+
+            // Show loading indicator
+            appendMessage('system', 'Loading...');
+
+            try {
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'gpt-4',
+                        messages: [{ role: 'user', content: message }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                const aiMessage = data.choices[0]?.message?.content;
+
+                // Remove loading message
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.removeChild(chatMessages.lastChild);
+
+                // Add AI response
+                appendMessage('ai', aiMessage);
+            } catch (error) {
+                console.error('Error:', error);
+                appendMessage('system', 'Sorry, something went wrong.');
+            }
+        }
+
+        function appendMessage(role, message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', role);
+            messageElement.innerText = message;
+            chatMessages.appendChild(messageElement);
+        }
+
+        // Law search functionality
+        const laws = [
+           
+    { title: 'Cyberbullying Prevention Act', description: 'A law aimed at preventing and punishing cyberbullying activities.', section: 'N/A' },
+    { title: 'Digital Harassment Legislation', description: 'Legal framework to address harassment conducted online.', section: 'N/A' },
+    { title: 'Online Safety for Children Act', description: 'Protects children from harmful content and cyberbullying on the internet.', section: 'N/A' },
+    { title: 'Data Protection Act', description: 'Ensures the safety and security of personal data on the internet.', section: 'N/A' },
+    { title: 'Anti-Doxxing Law', description: 'Prohibits the unauthorized publishing of personal information online to cause harm.', section: 'N/A' },
+    { title: 'Information Technology Act, 2000', description: 'Provides the legal framework for electronic commerce and cybersecurity in India.', section: 'Section 79, 84A' },
+    { title: 'Indian Penal Code (Section 354D)', description: 'Addresses stalking, including online stalking, as a criminal offense.', section: 'Section 354D IPC' },
+    { title: 'Protection of Children from Sexual Offences (POCSO) Act, 2012', description: 'Protects children from sexual exploitation and abuse, including online activities.', section: 'Section 14, 15' },
+    { title: 'Juvenile Justice (Care and Protection of Children) Act, 2015', description: 'Includes provisions to safeguard children from cyberbullying and exploitation.', section: 'Section 21' },
+    { title: 'IT Amendment Act, 2008', description: 'Strengthens provisions for tackling cybersecurity crimes, including identity theft and phishing.', section: 'Section 66, 66A' },
+    { title: 'Intermediary Guidelines and Digital Media Ethics Code, 2021', description: 'Mandates social media platforms to take steps against harmful content and cyberbullying.', section: 'Rule 3, 4' },
+    { title: 'Cybersecurity Policy of India, 2013', description: 'Provides guidelines for protecting cyberspace and securing online data and users.', section: 'N/A' },
+    { title: 'Indian Penal Code (Section 499 and 500)', description: 'Deals with defamation, including digital defamation.', section: 'Section 499, 500 IPC' },
+    { title: 'Right to Privacy (Under Article 21)', description: 'Recognized by the Supreme Court as a fundamental right, ensuring protection from online privacy violations.', section: 'Article 21, 300A' },
+    { title: 'Right to be Forgotten (Proposed)', description: 'Enables individuals to have their personal information removed from the internet under specific conditions.', section: 'Proposed under Data Protection Bill' },
+    { title: 'Cyber Terrorism (Section 66F of IT Act)', description: 'Criminalizes acts of cyber terrorism, including threats made via online platforms.', section: 'Section 66F IT Act' },
+    { title: 'Child Online Protection Guidelines', description: 'Ensures the safety of children accessing digital platforms.', section: 'Proposed' },
+    { title: 'Guidelines on Social Media Responsibility', description: 'Frameworks for social media companies to combat harmful content.', section: 'Rule 6, 7 of IT Rules' },
+    { title: 'Indian Penal Code (Section 507)', description: 'Punishes criminal intimidation through anonymous communication, including online platforms.', section: 'Section 507 IPC' },
+    { title: 'Identity Theft (Section 66C of IT Act)', description: 'Covers misuse of someone’s identity in cyberspace.', section: 'Section 66C IT Act' },
+    { title: 'Interception of Communications (Section 69 of IT Act)', description: 'Allows interception of digital communications under legal conditions.', section: 'Section 69 IT Act' },
+    { title: 'Obscenity (Section 67 of IT Act)', description: 'Punishes online transmission of obscene material.', section: 'Section 67 IT Act' },
+    { title: 'Cyber Fraud (Section 420 of IPC)', description: 'Deals with fraud, including online and digital fraud cases.', section: 'Section 420 IPC' },
+    { title: 'Women Protection Law (Section 509 of IPC)', description: 'Criminalizes words, gestures, or acts intended to insult women online or offline.', section: 'Section 509 IPC' },
+    { title: 'Revenge Porn Legislation (Section 66E of IT Act)', description: 'Criminalizes publishing private images without consent.', section: 'Section 66E IT Act' },
+    { title: 'Online Gambling Prohibition Laws', description: 'Regulates or prohibits online betting and gambling in several states in India.', section: 'State Legislation' },
+    { title: 'Cyber Espionage (Proposed)', description: 'Frameworks for countering espionage through digital channels.', section: 'Proposed' },
+    { title: 'Spam Email Regulations (Indian IT Act)', description: 'Covers sending bulk unsolicited emails.', section: 'Section 66A IT Act' },
+    { title: 'Phishing Prevention Laws', description: 'Frameworks to address identity and financial theft through phishing.', section: 'Section 66D IT Act' },
+    { title: 'International Human Rights Law on Cyberbullying', description: 'General principles protecting against harassment and bullying online.', section: 'N/A' },
+    { title: 'Social Media Verification Guidelines', description: 'Frameworks to ensure verified identities on digital platforms.', section: 'Proposed' },
+    { title: 'Digital Copyright Act', description: 'Protects intellectual property rights in cyberspace.', section: 'Section 63, 65 IT Act' },
+    { title: 'Digital Banking Guidelines', description: 'Protects users from fraud in online banking transactions.', section: 'N/A' },
+    { title: 'Online Child Grooming Legislation', description: 'Laws to protect children from predators using online platforms.', section: 'Proposed' },
+    { title: 'Fake News Legislation', description: 'Frameworks to counter the spread of misinformation and fake news online.', section: 'Proposed' },
+    { title: 'Data Encryption and Decryption Guidelines', description: 'Legal standards for secure communication online.', section: 'Proposed' },
+    { title: 'Net Neutrality Guidelines', description: 'Ensures equal access to all internet users without discrimination.', section: 'Proposed' },
+    { title: 'Online Content Regulation (Digital Media Guidelines)', description: 'Governs permissible content on digital platforms.', section: 'Rule 9, 10 IT Rules' },
+    { title: 'Biometric Data Protection Laws', description: 'Regulates the collection and storage of biometric data by online systems.', section: 'Proposed under Data Protection Bill' },
+    { title: 'Electronic Evidence Admissibility (Indian Evidence Act)', description: 'Details conditions for accepting electronic evidence in courts.', section: 'Section 65B Evidence Act' },
+    { title: 'Hate Speech Regulations', description: 'Framework to counter hate speech and incitement to violence online.', section: 'Section 153A IPC' },
+    { title: 'Digital Payment Fraud Prevention Laws', description: 'Protects users from scams in online payment systems.', section: 'Proposed' },
+    { title: 'Computer Emergency Response Team Guidelines', description: 'Operational guidelines for cybersecurity incidents.', section: 'Proposed' },
+    { title: 'Online Marketplaces Consumer Protection', description: 'Governs fair trade practices in e-commerce.', section: 'Consumer Protection Act, 2019' },
+    { title: 'Personal Data Protection Bill, 2019 (Proposed)', description: 'Seeks to regulate personal data processing.', section: 'Proposed' },
+    { title: 'Artificial Intelligence Regulation Framework (Proposed)', description: 'Guidelines for AI usage and ethical considerations.', section: 'Proposed' },
+    { title: 'Freedom of Expression Online (Article 19)', description: 'Limits to freedom of speech concerning online hate and harm.', section: 'Article 19(1)(a) of the Constitution' },
+    { title: 'Telecom Commercial Communications Customer Preference Regulations', description: 'Protects users from unsolicited telemarketing and spam.', section: 'Regulation 7, 8 TRAI' },
+    { title: 'OTT Platforms Guidelines', description: 'Regulates content on Over-The-Top streaming services.', section: 'Rule 5 IT Rules' },
+    { title: 'Cyber Forensics Protocols', description: 'Guidelines for investigating cybercrimes.', section: 'N/A' },
+    { title: 'Dark Web Regulations (Proposed)', description: 'Frameworks to counter illegal activities on the dark web.', section: 'Proposed' },
+    { title: 'Online Gaming Laws', description: 'Regulates online gaming activities, ensuring child safety.', section: 'State Gaming Laws' },
+    { title: 'IT Act (Section 66B)', description: 'Deals with dishonestly receiving stolen computer resources or communication devices.', section: 'Section 66B IT Act' },
+    { title: 'Digital Taxation Laws', description: 'Regulates taxation of digital transactions and platforms.', section: 'Proposed' },
+    { title: 'Whistleblower Protection Laws', description: 'Safeguards individuals reporting misconduct through online channels.', section: 'Proposed' },
+    { title: 'Virtual Asset Regulation Guidelines', description: 'Covers legal use and trade of virtual assets like cryptocurrencies.', section: 'Proposed Cryptocurrency Regulation Bill' },
+    { title: 'E-Waste Management Rules', description: 'Regulates disposal of electronic waste to protect the environment.', section: 'E-Waste Management Rules 2016' },
+    { title: 'Digital Authentication Framework', description: 'Frameworks for secure electronic transactions.', section: 'Proposed' },
+    { title: 'Privacy of Communication (Section 65A of IT Act)', description: 'Prohibits interception of private communication.', section: 'Section 65A IT Act' },
+    { title: 'VPN Usage Regulation', description: 'Frameworks to monitor and regulate the use of VPNs.', section: 'Proposed under IT Rules' },
+    { title: 'Digital Currency Regulation', description: 'Laws to regulate the use and trade of digital currencies.', section: 'Proposed Cryptocurrency Regulation Bill' },
+    { title: 'Cyber Extortion Laws', description: 'Covers cases of extortion carried out via online threats.', section: 'Section 384 IPC' },
+    { title: 'E-Mail Spoofing Prevention Guidelines', description: 'Frameworks to counter email-based impersonation scams.', section: 'Section 66D IT Act' },
+    { title: 'Cloud Data Security Laws', description: 'Regulates the storage and processing of data in cloud environments.', section: 'Proposed' },
+    { title: 'AI Content Moderation Standards', description: 'Guidelines for using AI to moderate harmful or illegal content.', section: 'Proposed under IT Act' },
+    { title: 'Prohibition of Non-Consensual Pornography', description: 'Targets revenge porn and other forms of non-consensual sexual content.', section: 'Section 66E IT Act' },
+    { title: 'Cyberbullying Prevention Act', description: 'A law aimed at preventing and punishing cyberbullying activities.', section: 'N/A' },
+    { title: 'Digital Harassment Legislation', description: 'Legal framework to address harassment conducted online.', section: 'N/A' },
+    { title: 'Online Safety for Children Act', description: 'Protects children from harmful content and cyberbullying on the internet.', section: 'N/A' },
+    { title: 'Data Protection Act', description: 'Ensures the safety and security of personal data on the internet.', section: 'N/A' },
+    { title: 'Anti-Doxxing Law', description: 'Prohibits the unauthorized publishing of personal information online to cause harm.', section: 'N/A' },
+    { title: 'Information Technology Act, 2000', description: 'Provides the legal framework for electronic commerce and cybersecurity in India.', section: 'Section 79, 84A' },
+    { title: 'Indian Penal Code (Section 354D)', description: 'Addresses stalking, including online stalking, as a criminal offense.', section: 'Section 354D IPC' },
+    { title: 'Protection of Children from Sexual Offences (POCSO) Act, 2012', description: 'Protects children from sexual exploitation and abuse, including online activities.', section: 'Section 14, 15' },
+    { title: 'Juvenile Justice (Care and Protection of Children) Act, 2015', description: 'Includes provisions to safeguard children from cyberbullying and exploitation.', section: 'Section 21' },
+    { title: 'IT Amendment Act, 2008', description: 'Strengthens provisions for tackling cybersecurity crimes, including identity theft and phishing.', section: 'Section 66, 66A' },
+    { title: 'Intermediary Guidelines and Digital Media Ethics Code, 2021', description: 'Mandates social media platforms to take steps against harmful content and cyberbullying.', section: 'Rule 3, 4' },
+    { title: 'Cybersecurity Policy of India, 2013', description: 'Provides guidelines for protecting cyberspace and securing online data and users.', section: 'N/A' },
+    { title: 'Indian Penal Code (Section 499 and 500)', description: 'Deals with defamation, including digital defamation.', section: 'Section 499, 500 IPC' },
+    { title: 'Right to Privacy (Under Article 21)', description: 'Recognized by the Supreme Court as a fundamental right, ensuring protection from online privacy violations.', section: 'Article 21, 300A' },
+    { title: 'Right to be Forgotten (Proposed)', description: 'Enables individuals to have their personal information removed from the internet under specific conditions.', section: 'Proposed under Data Protection Bill' },
+    { title: 'Cyber Terrorism (Section 66F of IT Act)', description: 'Criminalizes acts of cyber terrorism, including threats made via online platforms.', section: 'Section 66F IT Act' },
+    { title: 'Child Online Protection Guidelines', description: 'Ensures the safety of children accessing digital platforms.', section: 'Proposed' },
+    { title: 'Guidelines on Social Media Responsibility', description: 'Frameworks for social media companies to combat harmful content.', section: 'Rule 6, 7 of IT Rules' },
+    { title: 'Indian Penal Code (Section 507)', description: 'Punishes criminal intimidation through anonymous communication, including online platforms.', section: 'Section 507 IPC' },
+    { title: 'Identity Theft (Section 66C of IT Act)', description: 'Covers misuse of someone’s identity in cyberspace.', section: 'Section 66C IT Act' },
+    { title: 'Interception of Communications (Section 69 of IT Act)', description: 'Allows interception of digital communications under legal conditions.', section: 'Section 69 IT Act' },
+    { title: 'Obscenity (Section 67 of IT Act)', description: 'Punishes online transmission of obscene material.', section: 'Section 67 IT Act' },
+    { title: 'Cyber Fraud (Section 420 of IPC)', description: 'Deals with fraud, including online and digital fraud cases.', section: 'Section 420 IPC' },
+    { title: 'Women Protection Law (Section 509 of IPC)', description: 'Criminalizes words, gestures, or acts intended to insult women online or offline.', section: 'Section 509 IPC' },
+    { title: 'Revenge Porn Legislation (Section 66E of IT Act)', description: 'Criminalizes publishing private images without consent.', section: 'Section 66E IT Act' },
+    { title: 'Online Gambling Prohibition Laws', description: 'Regulates or prohibits online betting and gambling in several states in India.', section: 'State Legislation' },
+    { title: 'Cyber Espionage (Proposed)', description: 'Frameworks for countering espionage through digital channels.', section: 'Proposed' },
+    { title: 'Spam Email Regulations (Indian IT Act)', description: 'Covers sending bulk unsolicited emails.', section: 'Section 66A IT Act' },
+    { title: 'Phishing Prevention Laws', description: 'Frameworks to address identity and financial theft through phishing.', section: 'Section 66D IT Act' },
+    { title: 'International Human Rights Law on Cyberbullying', description: 'General principles protecting against harassment and bullying online.', section: 'N/A' },
+    { title: 'Social Media Verification Guidelines', description: 'Frameworks to ensure verified identities on digital platforms.', section: 'Proposed' },
+    { title: 'Digital Copyright Act', description: 'Protects intellectual property rights in cyberspace.', section: 'Section 63, 65 IT Act' },
+    { title: 'Digital Banking Guidelines', description: 'Protects users from fraud in online banking transactions.', section: 'N/A' },
+    { title: 'Online Child Grooming Legislation', description: 'Laws to protect children from predators using online platforms.', section: 'Proposed' },
+    { title: 'Fake News Legislation', description: 'Frameworks to counter the spread of misinformation and fake news online.', section: 'Proposed' },
+    { title: 'Data Encryption and Decryption Guidelines', description: 'Legal standards for secure communication online.', section: 'Proposed' },
+    { title: 'Net Neutrality Guidelines', description: 'Ensures equal access to all internet users without discrimination.', section: 'Proposed' },
+    { title: 'Online Content Regulation (Digital Media Guidelines)', description: 'Governs permissible content on digital platforms.', section: 'Rule 9, 10 IT Rules' },
+    { title: 'Biometric Data Protection Laws', description: 'Regulates the collection and storage of biometric data by online systems.', section: 'Proposed under Data Protection Bill' },
+    { title: 'Electronic Evidence Admissibility (Indian Evidence Act)', description: 'Details conditions for accepting electronic evidence in courts.', section: 'Section 65B Evidence Act' },
+    { title: 'Hate Speech Regulations', description: 'Framework to counter hate speech and incitement to violence online.', section: 'Section 153A IPC' },
+    { title: 'Digital Payment Fraud Prevention Laws', description: 'Protects users from scams in online payment systems.', section: 'Proposed' },
+    { title: 'Computer Emergency Response Team Guidelines', description: 'Operational guidelines for cybersecurity incidents.', section: 'Proposed' },
+    { title: 'Online Marketplaces Consumer Protection', description: 'Governs fair trade practices in e-commerce.', section: 'Consumer Protection Act, 2019' },
+    { title: 'Personal Data Protection Bill, 2019 (Proposed)', description: 'Seeks to regulate personal data processing.', section: 'Proposed' },
+    { title: 'Artificial Intelligence Regulation Framework (Proposed)', description: 'Guidelines for AI usage and ethical considerations.', section: 'Proposed' },
+    { title: 'Freedom of Expression Online (Article 19)', description: 'Limits to freedom of speech concerning online hate and harm.', section: 'Article 19(1)(a) of the Constitution' },
+    { title: 'Telecom Commercial Communications Customer Preference Regulations', description: 'Protects users from unsolicited telemarketing and spam.', section: 'Regulation 7, 8 TRAI' },
+    { title: 'OTT Platforms Guidelines', description: 'Regulates content on Over-The-Top streaming services.', section: 'Rule 5 IT Rules' },
+    { title: 'Cyber Forensics Protocols', description: 'Guidelines for investigating cybercrimes.', section: 'N/A' },
+    { title: 'Dark Web Regulations (Proposed)', description: 'Frameworks to counter illegal activities on the dark web.', section: 'Proposed' },
+    { title: 'Online Gaming Laws', description: 'Regulates online gaming activities, ensuring child safety.', section: 'State Gaming Laws' },
+    { title: 'IT Act (Section 66B)', description: 'Deals with dishonestly receiving stolen computer resources or communication devices.', section: 'Section 66B IT Act' },
+    { title: 'Digital Taxation Laws', description: 'Regulates taxation of digital transactions and platforms.', section: 'Proposed' },
+    { title: 'Whistleblower Protection Laws', description: 'Safeguards individuals reporting misconduct through online channels.', section: 'Proposed' },
+    { title: 'Virtual Asset Regulation Guidelines', description: 'Covers legal use and trade of virtual assets like cryptocurrencies.', section: 'Proposed Cryptocurrency Regulation Bill' },
+    { title: 'E-Waste Management Rules', description: 'Regulates disposal of electronic waste to protect the environment.', section: 'E-Waste Management Rules 2016' },
+    { title: 'Digital Authentication Framework', description: 'Frameworks for secure electronic transactions.', section: 'Proposed' },
+    { title: 'Privacy of Communication (Section 65A of IT Act)', description: 'Prohibits interception of private communication.', section: 'Section 65A IT Act' },
+    { title: 'VPN Usage Regulation', description: 'Frameworks to monitor and regulate the use of VPNs.', section: 'Proposed under IT Rules' },
+    { title: 'Digital Currency Regulation', description: 'Laws to regulate the use and trade of digital currencies.', section: 'Proposed Cryptocurrency Regulation Bill' },
+    { title: 'Cyber Extortion Laws', description: 'Covers cases of extortion carried out via online threats.', section: 'Section 384 IPC' },
+    { title: 'E-Mail Spoofing Prevention Guidelines', description: 'Frameworks to counter email-based impersonation scams.', section: 'Section 66D IT Act' },
+    { title: 'Cloud Data Security Laws', description: 'Regulates the storage and processing of data in cloud environments.', section: 'Proposed' },
+    { title: 'AI Content Moderation Standards', description: 'Guidelines for using AI to moderate harmful or illegal content.', section: 'Proposed under IT Act' },
+    { title: 'Prohibition of Non-Consensual Pornography', description: 'Targets revenge porn and other forms of non-consensual sexual content.', section: 'Section 66E IT Act' },
+    { title: 'Regulation of Deepfake Technology', description: 'Frameworks for the ethical use of AI-based video manipulation tools.', section: 'Proposed' },
+    { title: 'Digital Healthcare Regulations', description: 'Guidelines for privacy and safety in telemedicine and health apps.', section: 'Proposed' },
+    { title: 'Regulation of Biometric Data in Digital Transactions', description: 'Rules for the use of biometric data in online transactions and authentication.', section: 'Proposed under Data Protection Bill' },
+    { title: 'Blockchain Technology Regulation', description: 'Guidelines for the use of blockchain technology in legal and commercial transactions.', section: 'Proposed' },
+    { title: 'IoT Security Standards', description: 'Frameworks to secure Internet of Things devices from cyber threats.', section: 'Proposed' },
+    { title: 'Digital Content Ownership Laws', description: 'Regulates intellectual property rights for digital content and media.', section: 'Proposed' },
+    { title: 'Regulation of Digital Advertising', description: 'Rules to ensure transparency and ethics in online advertising.', section: 'Proposed' },
+    { title: 'Cryptocurrency Anti-Money Laundering (AML) Laws', description: 'Guidelines to prevent money laundering in cryptocurrency transactions.', section: 'Proposed' },
+    { title: 'Regulation of 5G Technology', description: 'Regulates security standards and ethical considerations in the deployment of 5G networks.', section: 'Proposed' },
+    { title: 'Remote Work Cybersecurity Guidelines', description: 'Frameworks for securing digital workspaces in remote work settings.', section: 'Proposed' },
+     { title: 'Digital Content Regulation Law', description: 'Regulates the publication and distribution of digital content across platforms.', section: 'Proposed' },
+    { title: 'Online Privacy Protection Act', description: 'Mandates online platforms to safeguard user privacy and enforce data protection practices.', section: 'Proposed' },
+    { title: 'E-Commerce Data Protection Guidelines', description: 'Regulates how e-commerce platforms collect, use, and store consumer data.', section: 'Proposed' },
+    { title: 'National Cybersecurity Strategy', description: 'A government framework for improving the country\'s cybersecurity posture and response.', section: 'N/A' },
+    { title: 'Smart City Digital Data Regulations', description: 'Guidelines to protect citizen data collected from smart city infrastructure.', section: 'Proposed' },
+    { title: 'Biometric Identification Law', description: 'Regulates the collection, storage, and usage of biometric data for digital identification.', section: 'Proposed' },
+    { title: 'Cloud Computing Security Standards', description: 'Laws establishing security standards for cloud service providers and users.', section: 'Proposed' },
+    { title: 'Internet of Things (IoT) Cybersecurity Act', description: 'Laws addressing vulnerabilities in Internet of Things devices and their protection against cyber threats.', section: 'Proposed' },
+    { title: 'Digital Marketplace Fairness Act', description: 'Ensures fair practices within online marketplaces and e-commerce platforms.', section: 'Proposed' },
+    { title: 'Digital Wallet Security Act', description: 'Regulates the use and security of digital wallets for financial transactions.', section: 'Proposed' },
+    { title: 'Online Reputation Management Act', description: 'Defines measures to protect individuals and businesses from online reputation damage through malicious content or misinformation.', section: 'Proposed' },
+    { title: 'Artificial Intelligence Ethics and Regulation Act', description: 'Provides ethical guidelines for AI development and its application in various sectors.', section: 'Proposed' },
+    { title: 'Regulation of Autonomous Vehicles', description: 'Laws governing the safe operation and use of autonomous vehicles, including their digital infrastructure.', section: 'Proposed' },
+    { title: 'Virtual Reality Data Protection Law', description: 'Addresses privacy and data security concerns related to virtual reality platforms and devices.', section: 'Proposed' },
+    { title: 'Biometric Data Storage and Access Law', description: 'Regulates how biometric data is stored, accessed, and protected by organizations.', section: 'Proposed' },
+    { title: 'Digital Payment Security Act', description: 'Regulates security standards for digital payment systems to prevent fraud and unauthorized access.', section: 'Proposed' },
+    { title: 'Hacking and Digital Fraud Prevention Act', description: 'Laws designed to prevent digital hacking, fraud, and unauthorized access to computer systems.', section: 'Proposed' },
+    { title: 'Remote Working Security Standards Act', description: 'Provides guidelines for ensuring cybersecurity in remote work environments.', section: 'Proposed' },
+    { title: 'Deepfake and Synthetic Media Regulation Act', description: 'Regulates the creation and dissemination of deepfakes and synthetic media for malicious purposes.', section: 'Proposed' },
+    { title: 'Data Sharing and Usage Transparency Act', description: 'Mandates transparency in how data is shared, stored, and used by corporations and third parties.', section: 'Proposed' },
+    { title: 'Government Surveillance and Privacy Protection Act', description: 'Regulates government surveillance practices while ensuring the privacy of individuals is protected.', section: 'Proposed' },
+    { title: 'Digital ID Protection Law', description: 'Regulates the protection of digital identities and ensures secure authentication methods for online services.', section: 'Proposed' },
+    { title: 'Elderly Protection from Online Fraud Act', description: 'Protects elderly citizens from online scams and fraud, particularly related to financial exploitation.', section: 'Proposed' },
+    { title: 'Digital Content Copyright Enforcement Act', description: 'Strengthens the enforcement of digital copyright laws to prevent illegal distribution of content.', section: 'Proposed' },
+    { title: 'Internet Access Equality Act', description: 'Aims to ensure equal access to the internet across various socio-economic groups, regions, and communities.', section: 'Proposed' },
+    { title: 'Online Fraud and Phishing Prevention Act', description: 'Outlines preventive measures and penalties for online fraud and phishing scams.', section: 'Proposed' },
+    { title: 'Public Sector Cybersecurity Regulations', description: 'Ensures that government agencies comply with high standards of cybersecurity to protect sensitive data.', section: 'Proposed' },
+    { title: 'Privacy Rights for Digital Platforms', description: 'Defines the privacy rights of users on digital platforms, including their right to opt out of data collection practices.', section: 'Proposed' },
+    { title: 'Regulation of Data Brokers Act', description: 'Regulates the collection, sale, and distribution of personal data by data brokers.', section: 'Proposed' },
+    { title: 'Digital Healthcare Security Act', description: 'Establishes cybersecurity standards for digital health records, telemedicine services, and healthcare apps.', section: 'Proposed' },
+    { title: 'Regulation of Cryptocurrency Exchanges Act', description: 'Regulates cryptocurrency exchanges to ensure they adhere to anti-money laundering (AML) and know-your-customer (KYC) standards.', section: 'Proposed' },
+    { title: 'Blockchain Transparency and Integrity Act', description: 'Mandates the use of transparent blockchain technology in various sectors, ensuring the integrity and accountability of transactions.', section: 'Proposed' },
+    { title: 'Telemedicine Ethics and Security Law', description: 'Provides ethical guidelines for telemedicine practices, ensuring secure, patient-centered digital healthcare services.', section: 'Proposed' },
+    { title: 'Digital Wallet Consumer Protection Act', description: 'Provides protection to users of digital wallets, ensuring they are safeguarded against fraud and misuse.', section: 'Proposed' },
+    { title: 'Cybercrime Victim Protection Act', description: 'Laws designed to protect victims of cybercrimes, providing support and legal recourse.', section: 'Proposed' },
+    { title: 'Regulation of Online Streaming Platforms Act', description: 'Regulates content, licensing, and distribution on digital streaming platforms to ensure compliance with national laws.', section: 'Proposed' },
+    { title: 'Digital Media Accountability Act', description: 'Holds online media companies accountable for the content they host, with a focus on misinformation and hate speech.', section: 'Proposed' },
+    { title: 'Online Payment Fraud Prevention Act', description: 'Regulates online payment systems to ensure they are secure and protect users from fraud.', section: 'Proposed' },
+    { title: 'Artificial Intelligence Liability Law', description: 'Establishes guidelines for the legal accountability of AI systems and their creators in cases of harm or damage caused by AI actions.', section: 'Proposed' },
+    { title: 'Privacy-First Marketing Act', description: 'Regulates digital marketing practices to ensure they prioritize consumer privacy and consent.', section: 'Proposed' },
+    { title: 'Digital Transaction Authentication Act', description: 'Regulates the secure authentication of digital transactions to prevent fraud and unauthorized access.', section: 'Proposed' },
+    { title: 'Social Media Data Collection Regulations', description: 'Laws governing the collection and storage of user data by social media companies, ensuring users’ privacy rights are protected.', section: 'Proposed' },
+    { title: 'Cybersecurity in Education Law', description: 'Establishes cybersecurity standards for educational institutions and online learning platforms.', section: 'Proposed' },
+    { title: 'Autonomous Robot Regulation Act', description: 'Regulates the use of autonomous robots, particularly in relation to privacy, security, and liability.', section: 'Proposed' },
+    { title: 'Global Digital Trade Agreement', description: 'Aims to facilitate global digital trade while ensuring cybersecurity and data protection standards.', section: 'Proposed' },
+    { title: 'Children’s Online Privacy Protection Act (COPPA)', description: 'Protects the privacy of children under 13 by regulating the collection of their personal information online.', section: 'Proposed' },
+    { title: 'Online Content Moderation Law', description: 'Establishes standards and guidelines for online platforms to follow in moderating user-generated content.', section: 'Proposed' },
+    { title: 'Digital Privacy for Workers Act', description: 'Ensures the protection of workers’ digital privacy in the workplace, including monitoring, surveillance, and personal data usage.', section: 'Proposed' },
+    { title: 'Digital Trade Law for Small Businesses', description: 'Supports small businesses in adopting secure, efficient digital trade practices, ensuring access to digital marketplaces.', section: 'Proposed' },
+    { title: 'Secure Digital Identity Framework', description: 'Establishes secure, verifiable digital identities for citizens to use across various platforms.', section: 'Proposed' },
+    { title: 'Decentralized Finance Regulation Act', description: 'Regulates decentralized finance platforms to ensure consumer protection and prevent fraud.', section: 'Proposed' },
+    { title: 'Cloud Data Protection Act', description: 'Regulates the security and privacy of data stored in the cloud, ensuring compliance with national data protection laws.', section: 'Proposed' },
+    { title: 'Digital Copyright Infringement Law', description: 'Enforces penalties for the unauthorized use or distribution of copyrighted digital content online.', section: 'Proposed' },
+    { title: 'Online Security Awareness Act', description: 'Mandates digital literacy and cybersecurity awareness programs to educate citizens on online security risks.', section: 'Proposed' },
+    { title: 'Mobile Application Security Law', description: 'Establishes security protocols for mobile apps to safeguard user data and prevent breaches.', section: 'Proposed' },
+    { title: 'Artificial Intelligence Bias Regulation Act', description: 'Ensures AI systems are tested and adjusted to avoid biased decisions based on race, gender, or other sensitive attributes.', section: 'Proposed' },
+    { title: 'Digital Platform Accessibility Law', description: 'Requires online platforms to be accessible to people with disabilities, ensuring equal access to information and services.', section: 'Proposed' },
+    { title: 'Cybersecurity for Critical Infrastructure Act', description: 'Strengthens cybersecurity measures for sectors like energy, finance, and healthcare to protect against cyberattacks.', section: 'Proposed' },
+    { title: 'Digital Property Theft Act', description: 'Outlines legal actions against the theft of digital property, including intellectual property theft in the online space.', section: 'Proposed' },
+    { title: 'Social Media Child Protection Law', description: 'Implements measures to protect children from online exploitation, abuse, and cyberbullying on social media platforms.', section: 'Proposed' },
+    { title: 'Virtual Asset Transaction Law', description: 'Regulates the legal and financial aspects of virtual asset transactions, including cryptocurrencies and NFTs.', section: 'Proposed' },
+    { title: 'Smart Home Security Standards Act', description: 'Establishes security guidelines for Internet of Things (IoT) devices in smart homes to prevent hacking and unauthorized access.', section: 'Proposed' },
+    { title: 'Digital Rights Management (DRM) Law', description: 'Enforces rules for the protection of digital content creators’ rights through digital rights management technologies.', section: 'Proposed' },
+    { title: 'Digital Trade Protection Act', description: 'Protects digital trade and online business transactions from fraud, ensuring secure payment systems.', section: 'Proposed' },
+    { title: 'Digital Media Fairness Act', description: 'Mandates transparency and fairness in digital media platforms regarding content moderation and monetization.', section: 'Proposed' },
+    { title: 'Biometric Data Privacy Act', description: 'Regulates the collection, storage, and use of biometric data by companies and government agencies to prevent misuse.', section: 'Proposed' },
+    { title: 'Surveillance Technology Regulation Act', description: 'Limits the use of surveillance technologies, including facial recognition, to prevent abuse by government or private entities.', section: 'Proposed' },
+    { title: 'Remote Learning Security Act', description: 'Ensures that online learning platforms are secure and that student data is protected from cyber threats.', section: 'Proposed' },
+    { title: 'Cybersecurity in Banking Law', description: 'Outlines the cybersecurity standards for banks and financial institutions to prevent digital fraud and cyberattacks.', section: 'Proposed' },
+    { title: 'AI Transparency Act', description: 'Requires AI algorithms to be transparent and auditable, ensuring they operate fairly and without discrimination.', section: 'Proposed' },
+    { title: 'Children’s Online Data Protection Act', description: 'Restricts the collection of personal data from children under 13 years old on websites and apps.', section: 'Proposed' },
+    { title: 'Social Media Anti-Harassment Law', description: 'Mandates social media platforms to take proactive measures against harassment, abuse, and online hate speech.', section: 'Proposed' },
+    { title: 'Telecom Data Protection Law', description: 'Regulates the collection and storage of personal data by telecommunications companies, ensuring that user privacy is protected.', section: 'Proposed' },
+    { title: 'Cryptocurrency Transaction Monitoring Act', description: 'Establishes requirements for monitoring cryptocurrency transactions to prevent money laundering and financial fraud.', section: 'Proposed' },
+    { title: 'Digital Evidence Law', description: 'Sets guidelines for the admissibility of digital evidence in legal proceedings, including emails, texts, and social media content.', section: 'Proposed' },
+    { title: 'Online Misinformation Regulation Act', description: 'Establishes rules for addressing the spread of false information and fake news online, including penalties for offenders.', section: 'Proposed' },
+    { title: 'Cyber Insurance Law', description: 'Mandates businesses to acquire cyber insurance to cover risks related to data breaches, cyberattacks, and online fraud.', section: 'Proposed' },
+    { title: 'AI-Powered Content Regulation Law', description: 'Regulates the use of AI technologies to generate, moderate, and distribute online content, ensuring ethical standards are met.', section: 'Proposed' },,
+    { title: 'Digital Government Services Regulation Act', description: 'Regulates the provision of government services through digital platforms, ensuring security, privacy, and accessibility.', section: 'Proposed' },
+    { title: 'Electronic Voting System Regulation Act', description: 'Sets standards for secure electronic voting systems to protect election integrity in the digital age.', section: 'Proposed' },
+    { title: 'Online Gambling Age Restrictions Act', description: 'Enforces age restrictions for online gambling platforms to prevent minors from accessing gambling services.', section: 'Proposed' },
+    { title: 'Internet Censorship and Freedom of Expression Law', description: 'Addresses the balance between government censorship and the protection of free speech on the internet.', section: 'Proposed' },
+    { title: 'Digital Transaction Fraud Prevention Act', description: 'Regulates digital payment systems to ensure they are secure and prevent fraud in digital financial transactions.', section: 'Proposed' },
+    { title: 'Blockchain Authentication Standards Act', description: 'Establishes blockchain-based authentication methods for secure online transactions and identity verification.', section: 'Proposed' },
+    { title: 'E-Health Record Security Act', description: 'Regulates the protection and privacy of electronic health records stored on digital platforms.', section: 'Proposed' },
+    { title: 'Smart Device Regulation Act', description: 'Mandates security standards for smart devices to prevent them from being used in cyberattacks or data theft.', section: 'Proposed' },
+    { title: 'Digital Content Liability Act', description: 'Holds content creators and platforms accountable for harmful content distributed through digital channels.', section: 'Proposed' },
+    { title: 'Online Privacy Rights Protection Act', description: 'Guarantees individuals the right to privacy on digital platforms, including the right to opt out of data collection.', section: 'Proposed' },
+    { title: 'Ethical Hacking and Cybersecurity Law', description: 'Regulates the practice of ethical hacking, ensuring it is conducted safely and legally to improve cybersecurity.', section: 'Proposed' },
+    { title: 'Virtual Reality Security Standards Act', description: 'Establishes security measures for virtual reality (VR) platforms to protect users from potential privacy risks and exploitation.', section: 'Proposed' },
+    { title: 'Data Deletion and Retention Law', description: 'Defines how long personal data can be retained by organizations and mandates its deletion after a certain period.', section: 'Proposed' },
+    { title: 'Global Internet Governance Framework', description: 'Establishes international regulations for managing the global internet infrastructure and protecting users from cyber threats.', section: 'Proposed' },
+    { title: 'E-Privacy Protection Act', description: 'Regulates the collection, processing, and sharing of personal information online to protect user privacy.', section: 'Proposed' },
+    { title: 'Digital Consumer Rights Protection Act', description: 'Ensures protection of consumer rights in online transactions, including rights to refunds, returns, and dispute resolution.', section: 'Proposed' },
+    { title: 'Social Media Data Transparency Act', description: 'Requires social media platforms to disclose how user data is used, shared, and protected, ensuring greater transparency.', section: 'Proposed' },
+    { title: 'Online Transaction Security Standards Act', description: 'Sets minimum security requirements for online transactions to prevent fraud, identity theft, and financial scams.', section: 'Proposed' },
+    { title: 'Tech Platform Accountability Act', description: 'Holds tech companies accountable for their role in enabling illegal or harmful activities, including the spread of fake news or hate speech.', section: 'Proposed' },
+    { title: 'Digital Identity Protection Act', description: 'Regulates the creation, management, and protection of digital identities, including identity verification systems.', section: 'Proposed' },
+    { title: 'Cloud Storage Privacy Act', description: 'Imposes regulations on cloud service providers to ensure the secure and private storage of user data.', section: 'Proposed' },
+    { title: 'Digital Tax Transparency Act', description: 'Mandates greater transparency in the taxation of digital businesses, including online platforms and tech companies operating internationally.', section: 'Proposed' },
+    { title: 'Online Cybersecurity Training Act', description: 'Requires businesses to provide cybersecurity training to employees to reduce the risk of breaches and attacks.', section: 'Proposed' },
+    { title: 'Cyber Attack Liability Law', description: 'Establishes legal liabilities for individuals or organizations that cause or facilitate cyberattacks, including ransomware attacks.', section: 'Proposed' },
+    { title: 'Remote Work Security Law', description: 'Sets cybersecurity protocols for remote work, including secure data transmission and protection of employees’ personal devices.', section: 'Proposed' },
+    { title: 'Internet of Things (IoT) Security Act', description: 'Establishes security standards for IoT devices to prevent unauthorized access and exploitation of smart devices.', section: 'Proposed' },
+    { title: 'Digital Content Moderation Transparency Act', description: 'Requires online platforms to disclose their content moderation practices and ensure they are applied fairly and consistently.', section: 'Proposed' },
+    { title: 'Digital Privacy for Minors Act', description: 'Enhances protections for minors\' personal data, ensuring that platforms comply with age-appropriate privacy safeguards.', section: 'Proposed' },
+    { title: 'AI Ethics and Accountability Act', description: 'Mandates ethical guidelines for AI development and deployment, ensuring transparency, accountability, and fairness in AI systems.', section: 'Proposed' },
+    { title: 'Digital Currency Security Act', description: 'Regulates the secure usage and trade of digital currencies, including cryptocurrencies, to protect users from fraud and theft.', section: 'Proposed' },
+    { title: 'Cyber Incident Reporting Law', description: 'Requires businesses and organizations to report significant cyber incidents, breaches, and attacks to authorities in a timely manner.', section: 'Proposed' },
+    { title: 'Autonomous Vehicle Data Protection Act', description: 'Regulates the data collection, storage, and sharing practices of autonomous vehicle systems, ensuring privacy and security of user information.', section: 'Proposed' },
+    { title: 'E-Commerce Fraud Prevention Law', description: 'Mandates fraud detection and prevention measures for e-commerce platforms to protect consumers from scams and deceptive practices.', section: 'Proposed' },
+    { title: 'Blockchain Data Privacy Law', description: 'Ensures that blockchain technologies adhere to privacy and data protection standards, including the right to be forgotten and secure data sharing.', section: 'Proposed' },
+    { title: 'Deepfake Technology Regulation Act', description: 'Regulates the use of deepfake technology to prevent its misuse for malicious purposes, including misinformation and identity theft.', section: 'Proposed' },
+    { title: 'Online Data Collection Restrictions Act', description: 'Limits the scope and types of data that can be collected from online users, requiring informed consent and limiting data retention.', section: 'Proposed' },
+    { title: 'Online Mental Health Protection Act', description: 'Establishes guidelines to protect users from harmful content related to mental health issues, including cyberbullying and harmful social media trends.', section: 'Proposed' },
+    { title: 'Virtual Reality Data Protection Act', description: 'Regulates the collection, storage, and sharing of data by virtual reality platforms, ensuring that user data is kept private and secure.', section: 'Proposed' },
+    { title: 'Digital Marketing Transparency Act', description: 'Requires digital marketers and advertisers to disclose how consumer data is collected and used for targeting ads online.', section: 'Proposed' },
+    { title: 'AI for Security Purposes Act', description: 'Regulates the use of AI technologies for national security purposes, ensuring they do not infringe on civil liberties or privacy.', section: 'Proposed' },
+    { title: 'Crowdsourced Data Privacy Act', description: 'Imposes privacy protections on crowdsourced data platforms, ensuring that users’ contributions are protected and used ethically.', section: 'Proposed' },
+    { title: 'Wearable Tech Security Act', description: 'Establishes security standards for wearable technologies like smartwatches and fitness trackers, ensuring user data is protected from hacking.', section: 'Proposed' },
+    { title: 'Personalized Ads Protection Law', description: 'Limits the ability of companies to use personal data for personalized advertising, especially in vulnerable sectors such as healthcare and finance.', section: 'Proposed' },
+    { title: 'Online Reputation Protection Act', description: 'Enables individuals to protect and manage their digital reputation, including combating harmful online content or defamatory posts.', section: 'Proposed' },
+    { title: 'Mobile App Privacy Law', description: 'Imposes strict data privacy standards on mobile applications, requiring developers to obtain explicit user consent for data collection.', section: 'Proposed' },
+    { title: 'Global Digital Data Standards Act', description: 'Establishes global standards for the collection, storage, and sharing of digital data to ensure consistency and privacy across borders.', section: 'Proposed' },
+    { title: 'Harmful Content Removal Act', description: 'Mandates that platforms remove harmful or illegal content, including hate speech, terrorism-related material, and explicit content.', section: 'Proposed' },
+    { title: 'Voice Data Protection Act', description: 'Regulates the collection and usage of voice data, ensuring privacy protections for consumers using voice-enabled devices and services.', section: 'Proposed' },
+    { title: 'Cybersecurity for Small Businesses Act', description: 'Provides resources, guidelines, and funding for small businesses to implement cybersecurity measures and protect customer data.', section: 'Proposed' },
+    { title: 'E-Health Data Security Act', description: 'Imposes privacy and security standards for electronic health records (EHR) and health data management systems to prevent unauthorized access.', section: 'Proposed' },
+    { title: 'Digital Surveillance Oversight Law', description: 'Establishes independent oversight of digital surveillance practices, ensuring that surveillance technologies are used ethically and responsibly.', section: 'Proposed' },
+    { title: 'Artificial Intelligence for Healthcare Law', description: 'Regulates the use of AI technologies in healthcare, ensuring that they are used safely and ethically to improve patient outcomes.', section: 'Proposed' },
+    { title: 'Digital Health Privacy Law', description: 'Regulates the collection and use of digital health data, ensuring user consent and protection from unauthorized access.', section: 'Proposed' },
+    { title: 'Remote Learning Safety Act', description: 'Establishes guidelines for online education platforms to protect minors from cyberbullying and exploitation.', section: 'Proposed' },
+    { title: 'Online Hate Crime Prevention Act', description: 'Criminalizes the spread of hate speech, cyber harassment, and incitement to violence through digital channels.', section: 'Proposed' },
+    { title: 'Digital Labor Rights Protection Act', description: 'Protects digital workers and gig economy employees from exploitation, ensuring fair wages and working conditions in online platforms.', section: 'Proposed' },
+    { title: 'Biometric Data Use Regulation Act', description: 'Regulates the use of biometric data by private and government entities, ensuring informed consent and proper data handling practices.', section: 'Proposed' },
+    { title: 'Digital Health Verification Act', description: 'Establishes a framework for secure and verified digital health credentials for users in telemedicine and online health services.', section: 'Proposed' },
+    { title: 'Anti-Phishing Act', description: 'Establishes regulations to prevent phishing attacks by mandating email authentication, website verification, and cybersecurity protocols.', section: 'Proposed' },
+    { title: 'Cyberbullying Victim Protection Act', description: 'Provides legal protections and support services for victims of cyberbullying, including legal recourse and mental health resources.', section: 'Proposed' },
+    { title: 'Smart Device Security Act', description: 'Imposes mandatory security standards for smart home devices and personal IoT products to prevent vulnerabilities and ensure consumer protection.', section: 'Proposed' },
+    { title: 'Data Anonymization Standards Act', description: 'Mandates the anonymization of personal data before use for research or business purposes to protect individual privacy.', section: 'Proposed' },
+    { title: 'Online Radicalization Prevention Act', description: 'Establishes measures for detecting and preventing online radicalization, including monitoring extremist content and providing counter-narrative support.', section: 'Proposed' },
+    { title: 'Social Media Child Safety Act', description: 'Requires social media platforms to implement age verification and content moderation systems to protect children from online harm and exploitation.', section: 'Proposed' },
+    { title: 'Virtual Reality Privacy Law', description: 'Regulates the collection and sharing of personal data within virtual reality environments, ensuring privacy rights for users.', section: 'Proposed' },
+    { title: 'Digital Copyright Enforcement Act', description: 'Strengthens protections for intellectual property in the digital world, focusing on online copyright infringement and digital piracy.', section: 'Proposed' },
+    { title: 'Online Content Liability Act', description: 'Establishes a framework for holding online platforms liable for harmful content that is not removed in a timely manner, including defamation and hate speech.', section: 'Proposed' },
+    { title: 'E-Waste Recycling and Disposal Act', description: 'Sets regulations for the safe disposal and recycling of e-waste, minimizing environmental impact and promoting responsible tech consumption.', section: 'Proposed' },
+    { title: 'AI Surveillance Regulation Act', description: 'Imposes restrictions on the use of AI for surveillance, ensuring that its deployment respects privacy and civil liberties.', section: 'Proposed' },
+    { title: 'Deepfake Detection Act', description: 'Mandates the development and implementation of deepfake detection technologies by social media and video-sharing platforms to prevent misinformation and fraud.', section: 'Proposed' },
+    { title: 'Digital Infrastructure Safety Act', description: 'Establishes standards for the security of digital infrastructure, including cloud servers and data centers, to protect against cyberattacks and breaches.', section: 'Proposed' },
+    { title: 'Online Transaction Transparency Act', description: 'Requires online marketplaces and payment platforms to disclose transaction fees, data collection practices, and dispute resolution mechanisms.', section: 'Proposed' },
+    { title: 'AI Data Processing Accountability Act', description: 'Mandates transparency in AI data processing and decision-making, ensuring that algorithms are fair, unbiased, and accountable.', section: 'Proposed' },
+    { title: 'Digital Ethics Framework Act', description: 'Establishes an ethical framework for the development, deployment, and use of emerging digital technologies, including AI and autonomous systems.', section: 'Proposed' },
+    { title: 'Cyber Crime Victim Protection Act', description: 'Provides comprehensive support for victims of cybercrime, including compensation for financial loss, counseling services, and legal assistance.', section: 'Proposed' },
+    { title: 'Autonomous Vehicle Privacy Act', description: 'Regulates the collection, use, and sharing of data by autonomous vehicles to protect user privacy and ensure data security.', section: 'Proposed' },
+    { title: 'Blockchain Privacy and Security Act', description: 'Addresses the privacy and security implications of blockchain technology, ensuring that user data is protected in decentralized systems.', section: 'Proposed' },
+    { title: 'Cyber Risk Insurance Act', description: 'Mandates that businesses offering digital services implement cyber risk insurance to cover potential damages resulting from cyberattacks and data breaches.', section: 'Proposed' },
+    { title: 'Data Protection for Financial Services Act', description: 'Establishes privacy protections for customer data in the financial sector, including banks, insurance companies, and fintech platforms.', section: 'Proposed' },
+    { title: 'Digital Trade Facilitation Act', description: 'Regulates cross-border digital transactions to promote secure international trade while safeguarding consumer protection and data privacy.', section: 'Proposed' },
+    { title: 'Telecommunication Security Act', description: 'Sets standards for the protection of telecommunications infrastructure and data against cyberattacks, espionage, and unauthorized access.', section: 'Proposed' },
+    { title: 'Cyber Resilience Act', description: 'Requires organizations to develop and implement resilience strategies against cyberattacks, ensuring continuity of operations and data integrity.', section: 'Proposed' },
+    { title: 'Virtual Asset Transaction Regulation Act', description: 'Regulates the trading and taxation of virtual assets like cryptocurrencies, focusing on anti-money laundering and fraud prevention.', section: 'Proposed' },
+    { title: 'Smart City Data Privacy Act', description: 'Protects residents’ personal information in smart city projects, ensuring that data collection and usage comply with privacy laws and principles.', section: 'Proposed' },
+    { title: 'Online Dating Safety Act', description: 'Establishes regulations to ensure safety and privacy for users of online dating platforms, preventing exploitation and promoting secure communication.', section: 'Proposed' },
+    { title: 'AI Transparency in Government Act', description: 'Mandates the disclosure of AI systems used by government entities for decision-making, ensuring fairness and transparency in their deployment.', section: 'Proposed' },
+    { title: 'Synthetic Biology Regulation Act', description: 'Regulates the use of synthetic biology technologies, ensuring safety, ethics, and privacy protections in the development of genetic modifications.', section: 'Proposed' },
+    { title: 'Digital Asset Protection Act', description: 'Regulates the protection of digital assets, including intellectual property, virtual assets, and online businesses, ensuring that they are secure and protected from cyber threats.', section: 'Proposed' },
+    { title: 'Personal Data Deletion Act', description: 'Establishes the right for individuals to request the deletion of their personal data from online platforms and businesses.', section: 'Proposed' },
+    { title: 'Digital Platform Accessibility Act', description: 'Ensures that digital platforms, websites, and services are accessible to people with disabilities, promoting inclusivity in the digital age.', section: 'Proposed' },
+    { title: 'Cyberbullying Civil Liability Act', description: 'Allows victims of cyberbullying to sue perpetrators for civil damages resulting from harassment, defamation, and emotional distress caused online.', section: 'Proposed' },
+    { title: 'Digital Bullying Awareness Act', description: 'Mandates educational programs on digital bullying to be included in school curriculums to raise awareness among students and teachers.', section: 'Proposed' },
+    { title: 'Cyberbullying Prevention for Teenagers Act', description: 'A law to provide legal protection for minors from cyberbullying, including measures for reporting incidents and seeking immediate legal recourse.', section: 'Proposed' },
+    { title: 'Digital Harassment Emergency Response Act', description: 'Ensures swift law enforcement intervention in cases of cyberbullying and digital harassment, allowing victims to file emergency restraining orders against offenders.', section: 'Proposed' },
+    { title: 'Online Harassment Prevention for Vulnerable Groups Act', description: 'Introduces specific measures to protect vulnerable groups, including LGBTQIA+, disabled persons, and minority communities, from online harassment and bullying.', section: 'Proposed' },
+    { title: 'Cyberbullying Legislation for Educational Institutions Act', description: 'Requires schools, colleges, and universities to establish strict anti-cyberbullying policies, provide mandatory reporting mechanisms, and impose penalties for non-compliance.', section: 'Proposed' },
+    { title: 'Anti-Cyberbullying in Sports Act', description: 'Prevents cyberbullying of athletes and coaches in the digital space, requiring sports bodies to take action and ensure the safety of participants from online harassment.', section: 'Proposed' },
+    { title: 'Anti-Cyberbullying and Mental Health Support Act', description: 'Creates legal requirements for mental health services to be available to victims of cyberbullying, offering therapy and counseling support in digital harassment cases.', section: 'Proposed' },
+    { title: 'National Cyberbullying Prevention Initiative Act', description: 'Establishes a national initiative that involves government agencies, schools, and NGOs in a collective effort to combat cyberbullying on a nationwide scale.', section: 'Proposed' },
+    { title: 'Cyberbullying Victim Protection and Compensation Act', description: 'Provides victims of cyberbullying with financial compensation for medical treatment, therapy, legal support, and loss of income due to emotional distress caused by harassment.', section: 'Proposed' },
+    { title: 'Cyberbullying and Digital Privacy Protection Act', description: 'Strengthens privacy protections for individuals facing cyberbullying by mandating the swift removal of private and harmful content from online platforms upon request.', section: 'Proposed' },
+    { title: 'Anti-Cyberbullying Training for Law Enforcement Act', description: 'Mandates specialized training for law enforcement officers on how to handle cases of cyberbullying, including investigation procedures and victim support.', section: 'Proposed' },
+    { title: 'Cyberbullying on Social Media Platforms Accountability Act', description: 'Holds social media platforms accountable for failing to remove harmful content related to cyberbullying and establishes penalties for non-compliance.', section: 'Proposed' },
+    { title: 'Digital Bullying Public Awareness Campaign Act', description: 'Requires the government to fund national campaigns raising awareness about cyberbullying, providing information on how to report incidents and seek legal assistance.', section: 'Proposed' },
+    { title: 'Victim Compensation for Cyberbullying Act', description: 'Establishes a government fund that compensates victims of cyberbullying for legal costs, therapy expenses, and any other damages suffered as a result of harassment.', section: 'Proposed' },
+    { title: 'Anti-Cyberbullying Social Media Standards Act', description: 'Sets standards for social media platforms to follow in order to actively prevent, detect, and remove cyberbullying content, with clear guidelines for enforcement.', section: 'Proposed' },
+    { title: 'Cyberbullying and Digital Identity Protection Act', description: 'Criminalizes the use of personal data to facilitate cyberbullying, including the unauthorized collection, use, or dissemination of personal information to harm an individual.', section: 'Proposed' },
+    { title: 'Protection Against Retaliatory Cyberbullying Act', description: 'Protects individuals from retaliation after reporting or publicly discussing incidents of cyberbullying, ensuring whistleblower protections for those who come forward.', section: 'Proposed' },
+    { title: 'Digital Inclusion and Cyberbullying Prevention Act', description: 'Ensures that cyberbullying prevention programs are inclusive and accessible to all users, particularly in marginalized communities with limited digital literacy.', section: 'Proposed' },
+    { title: 'Cross-Border Cyberbullying Enforcement Act', description: 'Provides mechanisms for international cooperation in enforcing cyberbullying laws, ensuring that offenders cannot escape justice due to cross-border digital harassment.', section: 'Proposed' },
+    { title: 'Cyberbullying Legislation for Employers Act', description: 'Requires businesses and employers to create policies preventing cyberbullying in the workplace and provide support to employees who experience harassment online.', section: 'Proposed' },
+    { title: 'Online Bullying and Cyberstalking Act', description: 'Strengthens laws surrounding online stalking and bullying, ensuring more severe penalties for perpetrators who engage in these activities.', section: 'Proposed' },
+    { title: 'Youth Cyberbullying Prevention Act', description: 'Focuses on protecting minors from cyberbullying, with provisions for school-based programs and resources for victims and parents.', section: 'Proposed' },
+    { title: 'Social Media Platform Accountability for Cyberbullying Act', description: 'Imposes liability on social media platforms for failing to remove harmful content, including instances of cyberbullying, within a specified time.', section: 'Proposed' },
+    { title: 'Anti-Bullying and Cyberbullying Education Act', description: 'Requires educational institutions to implement comprehensive anti-cyberbullying training for students, faculty, and parents.', section: 'Proposed' },
+    { title: 'Zero Tolerance Cyberbullying Law', description: 'Enforces a zero-tolerance policy for cyberbullying, requiring mandatory reporting by individuals and institutions when incidents occur.', section: 'Proposed' },
+    { title: 'Cyberbullying on Digital Platforms Act', description: 'Addresses cyberbullying across various digital platforms, focusing on quick response times for removing abusive content and protecting victims.', section: 'Proposed' },
+    { title: 'Victim Protection in Cyberbullying Act', description: 'Provides financial and legal protection for victims of severe cyberbullying, including reimbursement for therapy and legal costs.', section: 'Proposed' },
+    { title: 'Anonymous Online Bullying Law', description: 'Criminalizes the use of anonymous online identities to perpetrate bullying, with penalties for those found guilty of online harassment.', section: 'Proposed' },
+    { title: 'Anti-Cyberbullying Measures for Social Media Influencers Act', description: 'Requires social media influencers and public figures to take responsibility for preventing cyberbullying on their platforms.', section: 'Proposed' },
+    { title: 'Parental Cyberbullying Monitoring Act', description: 'Mandates that parents of minors have the legal right to monitor their children’s online activity to prevent exposure to cyberbullying.', section: 'Proposed' },
+    { title: 'Cyberbullying Victim Compensation Act', description: 'Establishes a compensation fund for victims of cyberbullying to receive financial support for medical treatment, legal services, and emotional damage.', section: 'Proposed' },
+    { title: 'International Cyberbullying Cooperation Act', description: 'Promotes international cooperation in combating cyberbullying, particularly in cross-border cases, to ensure global enforcement of anti-cyberbullying laws.', section: 'Proposed' },
+    { title: 'Digital Platform Responsibility for Cyberbullying Prevention Act', description: 'Holds digital platforms responsible for actively monitoring and preventing cyberbullying through AI-based detection systems and user reporting mechanisms.', section: 'Proposed' },
+    { title: 'Online Doxxing and Cyberbullying Law', description: 'Criminalizes the sharing of private information (doxxing) for the purpose of harassing or bullying an individual, with stringent penalties for offenders.', section: 'Proposed' },
+    { title: 'Cyberbullying Law for Public Figures Act', description: 'Creates specific legal provisions for addressing cyberbullying against public figures, ensuring they have the same protections as ordinary citizens.', section: 'Proposed' },
+    { title: 'Digital Detox and Cyberbullying Recovery Act', description: 'Provides a legal framework for victims of cyberbullying to take time off from digital platforms, offering support and resources to recover from emotional harm.', section: 'Proposed' },
+    { title: 'Cyberbullying Data Protection Act', description: 'Requires platforms to protect the privacy of victims of cyberbullying, including the removal of personal identifying data and preventing further harassment.', section: 'Proposed' },
+    { title: 'Cyberbullying Awareness and Reporting Act', description: 'Requires online platforms and institutions to set up awareness programs and easily accessible reporting mechanisms for cyberbullying cases.', section: 'Proposed' },
+    { title: 'Cyberbullying Legislation for Workplace Protection Act', description: 'Ensures that employees are protected from workplace-related cyberbullying, including harassment via emails, messages, and social media platforms.', section: 'Proposed' },
+    { title: 'Cyberbullying Response Coordination Act', description: 'Establishes a coordination framework between law enforcement, social media companies, and victim support services to provide a swift response to cyberbullying incidents.', section: 'Proposed' },
+    { title: 'Parental Guidance on Cyberbullying Act', description: 'Requires online platforms to provide resources and tools for parents to monitor and prevent cyberbullying involving their children.', section: 'Proposed' },
+    { title: 'Anti-Cyberbullying Law Enforcement Training Act', description: 'Requires law enforcement agencies to undergo specialized training to investigate online harassment, including how to track and identify offenders across digital platforms.', section: 'Proposed' },
+    { title: 'Online Abuse Prevention for Children Act', description: 'Introduces legal measures to prevent cyberbullying targeted at children, including mandatory reporting requirements for educators, counselors, and online platforms.', section: 'Proposed' },
+    { title: 'Harassment-Free Digital Space Act', description: 'Focuses on promoting a harassment-free online environment by imposing penalties on platforms that fail to remove harmful or abusive content within specified timeframes.', section: 'Proposed' },
+    { title: 'Anonymous Cyberbullying Prevention Act', description: 'Prohibits the use of anonymous accounts for cyberbullying purposes, and mandates stricter identity verification processes for online platforms.', section: 'Proposed' },
+    { title: 'Cyberbullying Legal Action for Minors Act', description: 'Enables minors who are victims of cyberbullying to file legal actions on their own behalf, with court-appointed guardians or legal representatives if needed.', section: 'Proposed' },
+    { title: 'National Cyberbullying Hotline Act', description: 'Establishes a national, government-funded hotline for victims of cyberbullying to report incidents and access legal, mental health, and crisis support.', section: 'Proposed' },
+    { title: 'Digital Harassment Restraining Order Act', description: 'Allows victims of online harassment to obtain restraining orders against perpetrators, restricting their ability to contact or post harmful content about the victim.', section: 'Proposed' },
+    { title: 'Cyberbullying in Workplaces Act', description: 'Requires employers to implement anti-cyberbullying measures and policies in the workplace, including disciplinary actions for offenders and support services for victims.', section: 'Proposed' },
+    { title: 'Public Service Anti-Cyberbullying Awareness Act', description: 'Mandates that public service organizations, including police and social services, promote awareness of cyberbullying and educate the public on how to prevent and report it.', section: 'Proposed' },
+    { title: 'Cyberbullying Victim Protection and Privacy Act', description: 'Provides victims of cyberbullying with protection for their privacy, including provisions for removing sensitive or defamatory content from the internet and social media platforms.', section: 'Proposed' },
+    { title: 'Cyberbullying Prevention for Online Gamers Act', description: 'Specifically addresses cyberbullying and harassment within online gaming communities, requiring developers to implement tools for reporting and blocking abusive players.', section: 'Proposed' },
+    { title: 'Cross-Platform Cyberbullying Reporting Act', description: 'Requires social media platforms, websites, and digital services to cooperate and allow users to report cyberbullying incidents across multiple platforms for a comprehensive response.', section: 'Proposed' },
+    { title: 'Youth Anti-Cyberbullying Education Act', description: 'Mandates the inclusion of anti-cyberbullying education as part of the curriculum in primary and secondary schools, focusing on digital citizenship and online respect.', section: 'Proposed' },
+    { title: 'International Cyberbullying Cooperation Act', description: 'Promotes international cooperation between countries to address cross-border cyberbullying cases, including measures to facilitate the prosecution of offenders in multiple jurisdictions.', section: 'Proposed' },
+    { title: 'Cyberbullying Offender Accountability Act', description: 'Introduces stricter legal consequences for individuals found guilty of cyberbullying, including mandatory counseling and public service, as well as criminal penalties for severe cases.', section: 'Proposed' },
+    { title: 'Safe Social Media Standards Act', description: 'Establishes mandatory content moderation standards for social media platforms to prevent cyberbullying, including guidelines for identifying harmful content and protecting vulnerable users.', section: 'Proposed' },
+        ];
+
+     const searchInput = document.getElementById('law-search');
+const lawsList = document.getElementById('laws-list');
+const showMoreBtn = document.getElementById('show-more-btn');
+
+const INITIAL_DISPLAY_COUNT = 5;
+let currentDisplayCount = INITIAL_DISPLAY_COUNT;
+
+searchInput.addEventListener('input', function() {
+    const searchQuery = searchInput.value.toLowerCase();
+    const filteredLaws = laws.filter(law => law.title.toLowerCase().includes(searchQuery) || law.description.toLowerCase().includes(searchQuery));
+    displayLaws(filteredLaws);
+});
+
+function displayLaws(filteredLaws) {
+    lawsList.innerHTML = '';
+    const lawsToDisplay = filteredLaws.slice(0, currentDisplayCount);
+    lawsToDisplay.forEach(law => {
+        const lawCard = document.createElement('div');
+        lawCard.classList.add('law-card', 'bg-white', 'p-6', 'rounded-lg', 'shadow-lg', 'mb-4');
+        lawCard.innerHTML = `
+            <h3 class="text-xl font-semibold text-gray-700">${law.title}</h3>
+            <p class="law-description text-gray-600 mt-2">${law.description}</p>
+        `;
+        lawsList.appendChild(lawCard);
+    });
+
+    if (currentDisplayCount < filteredLaws.length) {
+        showMoreBtn.style.display = 'block';
+    } else {
+        showMoreBtn.style.display = 'none';
+    }
+}
+
+function showMoreLaws() {
+    currentDisplayCount += INITIAL_DISPLAY_COUNT;
+    displayLaws(laws);
+}
+
+// Initially display only a few laws
+displayLaws(laws);
+
+// Show More button event listener
+showMoreBtn.addEventListener('click', showMoreLaws);
+    </script>
+</body>
+</html>
